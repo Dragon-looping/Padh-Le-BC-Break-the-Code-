@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # PADH LE BC — Break the Code 🚀
 
 > **Tagline:** Learn the algorithm. Understand the result. Choose with confidence.
@@ -155,10 +156,41 @@ The backend provides clean REST APIs with JSON responses for the React + TypeScr
   "timestamp": "2026-11-04T15:23:56.115204Z",
   "tagline": "Learn the algorithm. Understand the result. Choose with confidence."
 }
+=======
+# PADH LE BC — Break the Code
+
+> "Learn the algorithm. Understand the result. Choose with confidence."
+
+PADH LE BC is an interactive Machine Learning Learning Lab and Model Selection Assistant built with React, Vite, TypeScript, Tailwind CSS, Framer Motion, Recharts, and Three.js.
+
+---
+
+## 1. Quick Start
+
+### Prerequisites
+- Node.js >= 18 (Tested on v24)
+- npm >= 9
+
+### Installation & Development
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The Vite dev server starts at `http://localhost:5173`.
+
+### Production Build
+```bash
+cd frontend
+npm run build
+npm run preview
+>>>>>>> Stashed changes
 ```
 
 ---
 
+<<<<<<< Updated upstream
 ### 2. List Datasets
 `GET /api/datasets`
 
@@ -491,3 +523,87 @@ Returns column types, missing value percentages, numerical statistics (mean, std
 3. **Data Leakage Prevention:** Preprocessing pipelines (`StandardScaler`, `SimpleImputer`, `OneHotEncoder`) are strictly fit **only** on training splits, never on the full dataset or test sets.
 4. **CORS:** Configurable allowed origins (`CORS_ORIGINS` in `.env`), preventing open wildcard origins in production.
 5. **Robust Schema Enforcement:** Strict Pydantic v2 schemas reject invalid hyperparameters, malformed payloads, or non-numeric regression targets.
+=======
+## 2. Environment Variables
+
+Create `.env` in the `frontend` folder:
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `VITE_API_BASE_URL` | `http://localhost:8000` | FastAPI backend REST endpoint URL |
+| `VITE_USE_MOCKS` | `true` | When `true`, all requests run through the client-side mock adapter. When `false`, real network requests are dispatched to `VITE_API_BASE_URL`. |
+
+When `VITE_USE_MOCKS=true`, an amber `SAMPLE DATA` badge is pinned to the bottom-right corner of the interface so students and evaluators are always aware when viewing simulated metrics.
+
+---
+
+## 3. How Mocks Work
+
+The frontend features an offline mock engine located in `src/mocks/mockAdapter.ts`:
+- **Stateful simulations:** Uploading files simulates upload progress and generates specimen records.
+- **Tournament progression:** Launching the Arena simulates model fitting (`queued` → `fitting` → `validating` → `done`), providing honest indeterminate progress bars rather than instantaneous fake results.
+- **Hyperparameter feedback:** The Studio's "Execute Trial Run" computes real simulated tree depth, node count, leaf bounds, and bias-variance gaps.
+- **Seamless toggle:** Switching `VITE_USE_MOCKS=false` directs all service calls to the FastAPI backend with zero changes in UI components.
+
+---
+
+## 4. Design System & Tokens
+
+### Palette
+The visual identity uses a light warm paper theme accented by an iconic high-contrast split:
+- **Paper (`#F3EFE4`):** Warm editorial background.
+- **Paper 2 (`#E8E3D4`):** Secondary ruled panels and card surfaces.
+- **Ink (`#0A1033`):** Deep navy ink for typography, borders, and inverted instrument readouts.
+- **Cobalt (`#1E3CFF`):** Class 0 / primary action buttons / links.
+- **Lime (`#C6F432`):** Class 1 / highlights / success tags (always bordered by 1.5px ink stroke on paper).
+- **Orange (`#FF5B1F`):** **THE CUT** — split thresholds, attention ticks, active stations.
+- **Blush (`#FF9EC4`):** Secondary category / KNN indicator.
+- **Silver (`#AEB4BF`):** Neutral margins, gridlines, and baseline marks.
+- **Error (`#C4210F`):** Destructive error banners and blocking issues.
+
+### The Brand Device: "THE CUT"
+A decision tree learns by making cuts: finding the threshold that turns a mixed group into pure partitions. The recurring orange slicing line appears throughout the platform:
+- Story loader split exit.
+- Interactive hero point-cloud partition and manual threshold range controller.
+- Decision Tree Split Lab interactive threshold dragline.
+- Route change transitions (`CutTransition`).
+- Section dividing hairlines with orange ticks.
+
+### Typography
+- **Display:** `Bricolage Grotesque` (700–800 weight, tight tracking, uppercase).
+- **Accent:** `Instrument Serif Italic` (single emphasised word per headline).
+- **Data & Readouts:** `JetBrains Mono` with `tabular-nums`.
+- **Body:** `Instrument Sans` (16–18px, 1.55 line-height).
+
+---
+
+## 5. Architecture & Routes
+
+- `/` — Landing Page + The Bench Dashboard.
+- `/lab` — Learning Lab Catalog Index.
+- `/lab/:algorithm` — Algorithm Detail with step-scrubbers, KaTeX mathematical lens, and interactive Split Lab showpiece.
+- `/datasets` — CSV Upload with marching dropzone and specimen vault.
+- `/datasets/:id` — Specimen Profile Sheet (row/column numerals, column ribbon, missing meters).
+- `/datasets/:id/configure` — Target column selection and classification/regression setup.
+- `/arena/:datasetId` — Model Arena (Starting Grid live race and re-ranking).
+- `/advisor/:experimentId` — Model Advisor (The Verdict, evidence synthesis map, non-recommended disclosure).
+- `/studio/:experimentId` — Experiment Studio (schema-driven hyperparameter control surface, line scoreboard).
+- `/results/:experimentId` — Results Dashboard (confusion matrices, feature importances, comparison matrix).
+- `/results/:experimentId/report` — Printable audit report with blob download.
+- `*` — Styled 404 with the Cut motif.
+
+---
+
+## 6. Technical Deviations
+
+1. **Vite 8 / Rolldown Code-Splitting:**
+   - In Vite 8 with Rolldown, `output.manualChunks` requires a function `(id) => chunkName` rather than an object map. Chunks are split cleanly into `three-vendor`, `charts`, `katex`, and `motion`.
+2. **Subagents Substitution:**
+   - Subagents reached individual user quota during earlier execution. All 11 pages and components were subsequently authored directly, preserving all design guidelines, strict TypeScript rules, and responsive styling.
+
+---
+
+## 7. API Contract
+
+For complete REST specifications, payload schemas, and backend mapping expectations, see [docs/API_CONTRACT.md](docs/API_CONTRACT.md).
+>>>>>>> Stashed changes

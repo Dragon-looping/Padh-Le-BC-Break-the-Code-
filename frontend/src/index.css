@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ────────────────────────────────────────────────────────── */
+@theme {
+  /* Palette */
+  --color-paper:        #F3EFE4;
+  --color-paper-2:      #E8E3D4;
+  --color-ink:          #0A1033;
+  --color-cobalt:       #1E3CFF;
+  --color-cobalt-deep:  #0F1F9E;
+  --color-lime:         #C6F432;
+  --color-orange:       #FF5B1F;
+  --color-blush:        #FF9EC4;
+  --color-silver:       #AEB4BF;
+  --color-silver-light: #D5D8DD;
+  --color-error:        #C4210F;
+
+  /* Typography */
+  --font-display:   "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-serif:     "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans:      "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:      "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+
+  /* Motion durations */
+  --duration-micro:    120ms;
+  --duration-hover:    180ms;
+  --duration-base:     260ms;
+  --duration-section:  600ms;
+  --duration-cut:      700ms;
+
+  /* Easings */
+  --ease-cut:    cubic-bezier(0.77, 0, 0.18, 1);
+  --ease-out:    cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Breakpoints */
+  --breakpoint-xs: 390px;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1440px;
+}
+
+/* ─── CSS Custom Properties (also available via var()) ─────────────────────── */
+:root {
+  --paper:        #F3EFE4;
+  --paper-2:      #E8E3D4;
+  --ink:          #0A1033;
+  --cobalt:       #1E3CFF;
+  --cobalt-deep:  #0F1F9E;
+  --lime:         #C6F432;
+  --orange:       #FF5B1F;
+  --blush:        #FF9EC4;
+  --silver:       #AEB4BF;
+  --silver-light: #D5D8DD;
+  --error:        #C4210F;
+
+  /* Model identity */
+  --model-logreg:   #1E3CFF;
+  --model-knn:      #FF9EC4;
+  --model-tree:     #C6F432;
+  --model-forest:   #FF5B1F;
+  --model-boosting: #0A1033;
+}
+
+/* ─── Base Styles ───────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: auto; /* NO smooth-scroll library */
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  margin: 0;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--cobalt);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: top 120ms;
+}
+.skip-link:focus {
+  top: 0.5rem;
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Paper-grain texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 1;
+}
+
+/* Mono numbers */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hairline */
+.hairline {
+  border: none;
+  border-top: 1px solid var(--ink);
+  margin: 0;
+}
+
+/* Orange cut-line device */
+.cut-line {
+  position: relative;
+}
+.cut-line::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: var(--orange);
+  transform: translateX(-50%);
+}
+
+/* Instrument panel (ink bg, paper text) */
+.instrument-panel {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+.instrument-panel .hairline {
+  border-top-color: rgba(243, 239, 228, 0.15);
+}
+
+/* Hard shadow (pressed button) */
+.shadow-hard {
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.shadow-hard-cobalt {
+  box-shadow: 3px 3px 0 var(--cobalt);
+}
+
+/* Lime always gets ink stroke */
+.lime-stroked {
+  outline: 1.5px solid var(--ink);
+}
+
+/* Reduced-motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
