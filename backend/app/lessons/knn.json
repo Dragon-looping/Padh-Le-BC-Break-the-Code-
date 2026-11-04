@@ -1,0 +1,72 @@
+{
+  "id": "knn",
+  "name": "K-Nearest Neighbours (KNN)",
+  "task_types": ["classification", "regression"],
+  "tagline": "Show me who your neighbours are, and I will tell you who you are.",
+  "introduction": "K-Nearest Neighbours is an intuitive instance-based, non-parametric, 'lazy learning' algorithm. It does not learn an explicit mathematical model during training; instead, it stores the training dataset. When predicting a new sample, it computes the distance between that sample and all stored training points, identifies the K closest neighbours, and assigns the majority class (or average value).",
+  "why_used": [
+    "Extremely simple conceptual foundation requiring zero mathematical assumptions about underlying probability distributions.",
+    "No training phase (O(1) training time) makes it immediately ready to ingest new training examples.",
+    "Adapts flexibly to complex, irregular decision boundaries that linear boundaries cannot separate."
+  ],
+  "how_it_works": "1. Store the training feature matrix and labels.\\n2. For an unseen query point, compute its distance to every point in the training set using a distance metric (e.g. Euclidean, Manhattan).\\n3. Sort the distances and select the top K closest points.\\n4. For classification: take the majority vote among the K neighbours.\\n5. For regression: calculate the mean (or distance-weighted mean) of the K target values.",
+  "mathematical_intuition": "KNN assumes that points close to each other in feature space share similar outcomes. The choice of K acts as a direct knob for model bias and variance: small K (e.g., K=1) creates complex, highly wiggly decision boundaries sensitive to noise (low bias, high variance); large K smooths out boundaries (high bias, low variance).",
+  "important_formulas": [
+    {
+      "name": "Euclidean Distance (L2 Norm)",
+      "formula": "d(p, q) = \\sqrt{\\sum_{i=1}^{n} (p_i - q_i)^2}",
+      "description": "Straight-line geometric distance between two vectors in n-dimensional Euclidean space."
+    },
+    {
+      "name": "Manhattan Distance (L1 Norm / City Block)",
+      "formula": "d(p, q) = \\sum_{i=1}^{n} |p_i - q_i|",
+      "description": "Sum of absolute differences along each feature axis; more robust to extreme outlier values."
+    },
+    {
+      "name": "Minkowski Distance (Generalized)",
+      "formula": "d(p, q) = \\left( \\sum_{i=1}^{n} |p_i - q_i|^p \\right)^{1/p}",
+      "description": "General distance metric where p=1 yields Manhattan and p=2 yields Euclidean."
+    }
+  ],
+  "step_by_step_example": {
+    "scenario": "Classifying a new point X = (3, 4) with K=3 using Euclidean distance.",
+    "training_points": "A=(2, 3) [Class 0], B=(4, 5) [Class 1], C=(3, 6) [Class 1], D=(10, 10) [Class 0]",
+    "distance_calculations": "d(X, A) = sqrt((3-2)^2 + (4-3)^2) = sqrt(1 + 1) = 1.41; d(X, B) = sqrt((3-4)^2 + (4-5)^2) = 1.41; d(X, C) = sqrt((3-3)^2 + (4-6)^2) = 2.0; d(X, D) = sqrt(49 + 36) = 9.22",
+    "top_k_neighbors": "Closest 3: Point A (1.41, Class 0), Point B (1.41, Class 1), Point C (2.0, Class 1)",
+    "voting": "Class 1 votes: 2, Class 0 votes: 1",
+    "conclusion": "Query point is classified as Class 1 by majority vote (2/3)."
+  },
+  "advantages": [
+    "Zero training cost: simply stores points in memory.",
+    "Highly intuitive logic: easily explained to beginners through spatial closeness.",
+    "Can model arbitrary non-linear multi-class boundaries naturally.",
+    "New training observations can be added incrementally without retraining from scratch."
+  ],
+  "disadvantages": [
+    "Expensive test-time prediction: computing distances against N samples scales as O(N * D).",
+    "Curse of dimensionality: in high dimensions, distance metrics collapse as all points become equidistant.",
+    "Sensitive to feature scaling: features with large numerical magnitudes completely dominate the distance metric.",
+    "Sensitive to irrelevant features and noisy labels in dense regions."
+  ],
+  "when_to_use": [
+    "Small to medium datasets (less than 10,000 samples).",
+    "When features are already scaled or measured in uniform physical units.",
+    "When quick prototyping without parameter tuning is desired."
+  ],
+  "when_to_avoid": [
+    "High-dimensional data (e.g., text document vectors with thousands of columns).",
+    "Large-scale production systems requiring low-latency real-time inference.",
+    "Datasets with unscaled features or severe class imbalance."
+  ],
+  "comparison_with_related": [
+    {
+      "algorithm": "Logistic Regression",
+      "difference": "Logistic Regression is parametric and learns a fixed linear hyperplane during training; KNN is non-parametric and delays all work until prediction time."
+    },
+    {
+      "algorithm": "Decision Tree",
+      "difference": "Decision Trees make axis-aligned splits ignoring point distances; KNN makes local spherical/elliptical neighborhood predictions."
+    }
+  ],
+  "practical_example": "Recommender systems finding users with similar movie watch histories based on cosine or Euclidean similarity."
+}

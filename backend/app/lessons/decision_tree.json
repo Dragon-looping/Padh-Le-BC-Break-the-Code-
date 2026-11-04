@@ -1,0 +1,75 @@
+{
+  "id": "decision_tree",
+  "name": "Decision Tree",
+  "task_types": ["classification", "regression"],
+  "tagline": "Partitioning feature space using intuitive if-then decision rules.",
+  "introduction": "A Decision Tree is a non-parametric supervised learning algorithm that creates a flowchart-like tree structure to make predictions. Starting from a root node, the algorithm splits the dataset into smaller subsets by evaluating feature thresholds until reaching terminal leaf nodes that assign the final class label or regression value.",
+  "why_used": [
+    "Mimics human decision-making and produces transparent, visualisable rules.",
+    "Requires virtually no data preprocessing — handles both numerical and categorical features naturally without feature scaling.",
+    "Captures complex non-linear relationships and feature interactions without requiring mathematical transformations.",
+    "Forms the fundamental building block for modern ensemble algorithms like Random Forest and Gradient Boosting."
+  ],
+  "how_it_works": "The algorithm recursively evaluates every available feature and threshold to find the split that maximizes purity (minimizes impurity). At each node, it calculates impurity before and after the potential split. The feature-threshold pair producing the greatest Information Gain is selected to create child branches. This process continues recursively until a stopping criterion (e.g., maximum depth, minimum samples per split, or pure leaves) is met.",
+  "mathematical_intuition": "Impurity measures the degree of disorder or class mixture within a node. Pure nodes (all samples from one class) have an impurity of 0. When splitting, the algorithm seeks to maximize Information Gain: the reduction in entropy or Gini impurity from parent node to child nodes.",
+  "important_formulas": [
+    {
+      "name": "Gini Impurity",
+      "formula": "Gini(D) = 1 - \\sum_{i=1}^{C} p_i^2",
+      "description": "Measures probability of misclassifying a randomly chosen element if it were randomly labeled according to the class distribution. Bounded between 0 (pure) and 1 - 1/C."
+    },
+    {
+      "name": "Entropy",
+      "formula": "H(D) = -\\sum_{i=1}^{C} p_i \\log_2(p_i)",
+      "description": "Information-theoretic measure of uncertainty/disorder in bits. Bounded between 0 (pure) and \\log_2(C)."
+    },
+    {
+      "name": "Information Gain",
+      "formula": "IG(D, A) = H(D) - \\sum_{v \\in Values(A)} \\frac{|D_v|}{|D|} H(D_v)",
+      "description": "Expected reduction in entropy achieved by partitioning dataset D using feature A."
+    }
+  ],
+  "step_by_step_example": {
+    "scenario": "Predicting whether a student passes based on 'Study Hours' (>= 5 vs < 5).",
+    "parent_node": "Total 100 students: 60 Passed, 40 Failed. Parent Gini = 1 - [(0.6)^2 + (0.4)^2] = 0.48",
+    "left_child": "Study Hours >= 5: 50 students (45 Passed, 5 Failed). Gini = 1 - [(0.9)^2 + (0.1)^2] = 0.18",
+    "right_child": "Study Hours < 5: 50 students (15 Passed, 35 Failed). Gini = 1 - [(0.3)^2 + (0.7)^2] = 0.42",
+    "weighted_child_gini": "0.5 * 0.18 + 0.5 * 0.42 = 0.30",
+    "information_gain": "0.48 - 0.30 = 0.18 (Gini reduction)",
+    "conclusion": "The split reduces impurity by 0.18, successfully separating high performers."
+  },
+  "advantages": [
+    "Simple to interpret and explain to stakeholders; can be visualized graphically.",
+    "Handles numerical and categorical features without one-hot encoding or feature scaling.",
+    "Performs automatic feature selection by placing informative features closer to the root.",
+    "Non-parametric: makes no assumptions about data linearity or distribution."
+  ],
+  "disadvantages": [
+    "High variance: prone to severe overfitting on training data if depth is unrestricted.",
+    "Greedy heuristic: local optimal splits at each step do not guarantee a globally optimal tree.",
+    "Unstable: small changes in training data can result in an entirely different tree structure.",
+    "Creates orthogonal axis-aligned decision boundaries, struggling with diagonal decision boundaries."
+  ],
+  "when_to_use": [
+    "When model interpretability, rule extraction, and transparency are top priorities.",
+    "When features are on completely different scales and preprocessing is minimal.",
+    "For rapid exploratory baseline benchmarking.",
+    "When non-linear interactions are suspected without prior domain knowledge."
+  ],
+  "when_to_avoid": [
+    "When predicting smooth continuous functions (stepwise outputs cause jagged predictions).",
+    "When highest possible test accuracy is required (use Random Forest or Gradient Boosting instead).",
+    "On high-dimensional sparse datasets like text TF-IDF where linear models excel."
+  ],
+  "comparison_with_related": [
+    {
+      "algorithm": "Random Forest",
+      "difference": "Decision Trees have high variance; Random Forests average hundreds of decorrelated trees to drastically reduce variance."
+    },
+    {
+      "algorithm": "Logistic Regression",
+      "difference": "Logistic Regression creates a smooth global linear decision boundary; Decision Trees create axis-aligned step partitions."
+    }
+  ],
+  "practical_example": "Diagnosing medical patients based on age, blood pressure, and cholesterol using sequential clinical thresholds."
+}

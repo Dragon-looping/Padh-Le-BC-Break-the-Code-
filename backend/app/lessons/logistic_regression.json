@@ -1,0 +1,72 @@
+{
+  "id": "logistic_regression",
+  "name": "Logistic Regression",
+  "task_types": ["classification"],
+  "tagline": "The bedrock of linear classification: mapping linear combinations to probabilities.",
+  "introduction": "Despite its name, Logistic Regression is a classification algorithm. It extends linear regression by passing a linear combination of input features through the non-linear sigmoid (logistic) activation function. This constrains predictions strictly between 0 and 1, allowing them to be interpreted as the probability of belonging to the positive class.",
+  "why_used": [
+    "Provides well-calibrated probabilistic outputs rather than just discrete class labels.",
+    "Highly interpretable: model coefficients directly represent the change in log-odds per unit change in each feature.",
+    "Computationally lightweight and extraordinarily fast to train and evaluate.",
+    "Serves as the universal gold-standard baseline for binary and multiclass classification tasks."
+  ],
+  "how_it_works": "1. Compute a linear score z = w_1*x_1 + w_2*x_2 + ... + w_n*x_n + b.\\n2. Pass z into the sigmoid function: sigma(z) = 1 / (1 + e^(-z)).\\n3. This maps any real-valued number into a probability between 0 and 1.\\n4. Predict class 1 if sigma(z) >= 0.5 (or any user-defined threshold), otherwise predict class 0.\\n5. Optimize weights using gradient-based solvers to minimize Binary Cross-Entropy (Log Loss).",
+  "mathematical_intuition": "Linear regression fits a straight line, which can predict values less than 0 or greater than 1—invalid for probabilities. The sigmoid function provides an 'S-shaped' curve that maps (-infinity, +infinity) smoothly to (0, 1). The log-odds (logit) of probability p is a linear function of features: ln(p / (1 - p)) = w^T * x + b.",
+  "important_formulas": [
+    {
+      "name": "Sigmoid (Logistic) Function",
+      "formula": "\\sigma(z) = \\frac{1}{1 + e^{-z}}",
+      "description": "Squashes any continuous linear score z into a probability range [0, 1]."
+    },
+    {
+      "name": "Log-Odds (Logit)",
+      "formula": "\\ln\\left(\\frac{p}{1 - p}\\right) = w_0 + w_1 x_1 + ... + w_n x_n",
+      "description": "The logarithm of the odds of the event occurring is a linear combination of input features."
+    },
+    {
+      "name": "Binary Cross-Entropy Loss (Log Loss)",
+      "formula": "L(y, \\hat{y}) = -\\frac{1}{N} \\sum_{i=1}^{N} [y_i \\ln(\\hat{y}_i) + (1 - y_i) \\ln(1 - \\hat{y}_i)]",
+      "description": "Convex loss function penalizing confident wrong predictions heavily."
+    }
+  ],
+  "step_by_step_example": {
+    "scenario": "Predicting loan default probability based on credit score (x1) and debt-to-income ratio (x2).",
+    "weights_and_bias": "w1 = -0.01, w2 = 0.08, b = 2.5",
+    "input": "Applicant: credit_score = 650, debt_ratio = 45%",
+    "linear_combination": "z = (-0.01 * 650) + (0.08 * 45) + 2.5 = -6.5 + 3.6 + 2.5 = -0.4",
+    "sigmoid_activation": "sigma(-0.4) = 1 / (1 + e^(0.4)) = 1 / (1 + 1.4918) = 0.4013 (40.13% probability of default)",
+    "decision": "At 0.5 threshold: 0.4013 < 0.5, so the model predicts 'No Default' (Class 0)."
+  },
+  "advantages": [
+    "High interpretability: feature weights explain directional importance and odds ratio multipliers.",
+    "Outputs calibrated probabilities, essential for risk scoring and threshold tuning.",
+    "Very fast training and minimal memory footprint; ideal for real-time systems.",
+    "Less prone to overfitting in low dimensions, especially when L1 or L2 regularization is applied."
+  ],
+  "disadvantages": [
+    "Assumes a linear relationship between input features and the log-odds of the target.",
+    "Cannot capture non-linear relationships or complex feature interactions without manual feature engineering.",
+    "Requires feature scaling (e.g. StandardScaler) for reliable gradient convergence and fair L1/L2 regularization.",
+    "Sensitive to severe multicollinearity between features."
+  ],
+  "when_to_use": [
+    "When model explainability and compliance are legally or operationally required (e.g. credit underwriting).",
+    "When class probabilities are needed to set risk-sensitive decision thresholds.",
+    "As the primary linear baseline before trying complex non-linear models."
+  ],
+  "when_to_avoid": [
+    "When complex non-linear boundaries are known to exist and cannot be linearized.",
+    "When many correlated categorical features have high cardinality without sufficient training samples."
+  ],
+  "comparison_with_related": [
+    {
+      "algorithm": "Linear Regression",
+      "difference": "Linear Regression predicts continuous numbers (-inf to +inf); Logistic Regression predicts bounded probabilities (0 to 1) via the sigmoid transform."
+    },
+    {
+      "algorithm": "Decision Tree",
+      "difference": "Logistic Regression creates a single smooth linear hyperplane; Decision Trees create orthogonal stepwise partitions."
+    }
+  ],
+  "practical_example": "Spam email filtering: predicting whether an email is spam (1) or ham (0) based on word frequencies and sender reputation."
+}
