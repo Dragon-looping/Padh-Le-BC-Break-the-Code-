@@ -1,0 +1,71 @@
+{
+  "id": "random_forest",
+  "name": "Random Forest",
+  "task_types": ["classification", "regression"],
+  "tagline": "The wisdom of crowds: aggregating hundreds of decorrelated decision trees.",
+  "introduction": "Random Forest is a powerful ensemble learning method based on the principle of Bootstrap Aggregating (Bagging). It builds a forest of diverse decision trees during training. For classification, it aggregates predictions via majority vote; for regression, it averages the predictions of individual trees. By combining multiple independently trained trees, Random Forest drastically reduces variance without increasing bias.",
+  "why_used": [
+    "Consistently ranks among the top-performing algorithms out-of-the-box for tabular datasets.",
+    "Solves the high variance and severe overfitting tendencies of individual Decision Trees.",
+    "Provides intrinsic feature importance scores and Out-Of-Bag (OOB) error estimation.",
+    "Handles missing values, unscaled data, and high-dimensional spaces with minimal preprocessing."
+  ],
+  "how_it_works": "1. Bootstrap Sampling: For each of B trees, randomly sample N observations from the training dataset with replacement.\\n2. Random Feature Subspace: At each node split, consider only a random subset of m features (typically m = sqrt(D) for classification or m = D/3 for regression) rather than all D features.\\n3. Grow Deep Trees: Train each tree to full depth without aggressive pruning.\\n4. Aggregation: When predicting, pass the input through all B trees. Take the majority vote (classification) or mean value (regression).",
+  "mathematical_intuition": "If you have B identically distributed random variables with variance sigma^2 and positive pairwise correlation rho, the variance of their average is: Var = rho * sigma^2 + ((1 - rho) / B) * sigma^2. As the number of trees B grows large, the second term vanishes! To minimize the remaining variance (rho * sigma^2), we must minimize tree correlation rho. Random Forest achieves low correlation by combining bootstrap data sampling with random feature subsets at every split.",
+  "important_formulas": [
+    {
+      "name": "Ensemble Variance Reduction",
+      "formula": "\\text{Var}(\\bar{X}) = \\rho \\sigma^2 + \\frac{1 - \\rho}{B} \\sigma^2",
+      "description": "Demonstrates why decorrelating trees (reducing rho) and increasing forest size (B) drives ensemble variance down."
+    },
+    {
+      "name": "Classification Majority Vote",
+      "formula": "\\hat{y} = \\text{mode}\\{T_1(x), T_2(x), ..., T_B(x)\\}",
+      "description": "Final class prediction equals the most frequently predicted class across all B independent trees."
+    },
+    {
+      "name": "Mean Decrease in Impurity (Feature Importance)",
+      "formula": "I(A) = \\frac{1}{B} \\sum_{b=1}^{B} \\sum_{t \\in T_b, v(t)=A} \\Delta \\text{Impurity}(t)",
+      "description": "Measures total weighted impurity reduction brought about by feature A across all splits in all trees."
+    }
+  ],
+  "step_by_step_example": {
+    "scenario": "Predicting customer churn with a 5-tree forest on customer data X.",
+    "tree_predictions": "Tree 1: 'Churn', Tree 2: 'Churn', Tree 3: 'Stay', Tree 4: 'Churn', Tree 5: 'Stay'",
+    "vote_aggregation": "Total votes: 'Churn' = 3, 'Stay' = 2",
+    "probability_estimate": "P(Churn) = 3 / 5 = 60%",
+    "conclusion": "Final ensemble output is 'Churn' with 60% forest consensus."
+  },
+  "advantages": [
+    "High predictive accuracy on complex tabular datasets with minimal hyperparameter tuning.",
+    "Resistant to overfitting as more trees are added (adding trees does not cause overfitting).",
+    "No feature scaling required (immune to monotonic feature transformations).",
+    "Provides reliable global feature importance rankings."
+  ],
+  "disadvantages": [
+    "Loss of interpretability: impossible to manually trace logic through 100+ separate trees.",
+    "Higher computational cost and memory footprint during both training and inference.",
+    "Cannot extrapolate continuous trends beyond the training set range in regression tasks."
+  ],
+  "when_to_use": [
+    "Tabular datasets where maximum predictive performance is required without extensive parameter search.",
+    "When raw features have mixed distributions and varying scales.",
+    "When identifying the most important predictive features is a primary analytical goal."
+  ],
+  "when_to_avoid": [
+    "Ultra-low latency inference environments (evaluating hundreds of trees per query takes milliseconds).",
+    "Extremely sparse high-dimensional data (e.g. bag-of-words text arrays).",
+    "When strict regulatory transparency mandates a single human-readable decision rule."
+  ],
+  "comparison_with_related": [
+    {
+      "algorithm": "Decision Tree",
+      "difference": "A Decision Tree is a single high-variance model; Random Forest aggregates hundreds of trees to achieve low variance and superior generalization."
+    },
+    {
+      "algorithm": "Gradient Boosting",
+      "difference": "Random Forest builds independent trees in parallel using bagging; Gradient Boosting builds trees sequentially, with each tree correcting previous errors."
+    }
+  ],
+  "practical_example": "Predicting customer loan defaults or churn risk across hundreds of demographic and financial indicators."
+}

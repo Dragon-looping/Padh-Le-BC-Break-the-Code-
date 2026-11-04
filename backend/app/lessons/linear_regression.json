@@ -1,0 +1,78 @@
+{
+  "id": "linear_regression",
+  "name": "Linear Regression",
+  "task_types": ["regression"],
+  "tagline": "The starting point of machine learning: finding the best-fit hyperplane.",
+  "introduction": "Linear Regression is the fundamental supervised algorithm for regression tasks. It models the relationship between a continuous dependent target variable y and one or more independent explanatory features X by fitting a linear equation. The algorithm seeks coefficients that minimize the sum of squared differences between actual and predicted values.",
+  "why_used": [
+    "Unmatched simplicity, transparency, and computational speed.",
+    "Directly inspectable coefficients show the precise marginal effect of each input variable.",
+    "Serves as the analytical baseline for all quantitative predictive modeling.",
+    "Exact analytical closed-form solution (Normal Equation) exists for moderately sized data."
+  ],
+  "how_it_works": "1. Hypothesize a linear relationship: y = w_0 + w_1*x_1 + w_2*x_2 + ... + w_n*x_n + epsilon.\\n2. Measure prediction errors (residuals) e_i = y_i - y_hat_i.\\n3. Define the objective function as the Residual Sum of Squares (RSS).\\n4. Find the optimal weights (w) that minimize RSS using Ordinary Least Squares (OLS) closed-form matrix algebra or iterative Gradient Descent.",
+  "mathematical_intuition": "Geometrically, in 2D space, linear regression fits the straight line y = mx + c that minimizes the vertical squared distances from all data points to the line. In n dimensions, it fits an (n-1)-dimensional hyperplane.",
+  "important_formulas": [
+    {
+      "name": "Linear Hypothesis",
+      "formula": "\\hat{y} = w_0 + \\sum_{j=1}^{p} w_j x_j = \\mathbf{X}\\mathbf{w}",
+      "description": "Predicted target is a linear weighted sum of feature inputs plus an intercept bias term."
+    },
+    {
+      "name": "Ordinary Least Squares (RSS Objective)",
+      "formula": "\\text{RSS}(\\mathbf{w}) = \\sum_{i=1}^{N} (y_i - \\hat{y}_i)^2 = (\\mathbf{y} - \\mathbf{X}\\mathbf{w})^T (\\mathbf{y} - \\mathbf{X}\\mathbf{w})",
+      "description": "Sum of squared residual errors minimized by the OLS estimator."
+    },
+    {
+      "name": "Normal Equation (Closed-form Solution)",
+      "formula": "\\mathbf{w}^* = (\\mathbf{X}^T \\mathbf{X})^{-1} \\mathbf{X}^T \\mathbf{y}",
+      "description": "Exact optimal weight vector, assuming (X^T * X) is invertible (non-singular)."
+    },
+    {
+      "name": "Coefficient of Determination (R² Score)",
+      "formula": "R^2 = 1 - \\frac{\\sum (y_i - \\hat{y}_i)^2}{\\sum (y_i - \\bar{y})^2}",
+      "description": "Proportion of target variance explained by the model features (1.0 = perfect fit, 0.0 = baseline mean prediction)."
+    }
+  ],
+  "step_by_step_example": {
+    "scenario": "Predicting apartment rent (y, in thousands) based on square footage (x, in hundreds).",
+    "data_points": "(x1=6, y1=15), (x2=8, y2=20), (x3=10, y3=25)",
+    "mean_calculations": "x_bar = (6+8+10)/3 = 8; y_bar = (15+20+25)/3 = 20",
+    "slope_calculation": "w1 = sum((x - x_bar)(y - y_bar)) / sum((x - x_bar)^2) = [(-2)(-5) + (0)(0) + (2)(5)] / [(-2)^2 + 0^2 + 2^2] = (10 + 10) / (4 + 4) = 20 / 8 = 2.5",
+    "intercept_calculation": "w0 = y_bar - w1 * x_bar = 20 - (2.5 * 8) = 20 - 20 = 0.0",
+    "fitted_equation": "Rent = 2.5 * (Area in hundreds)",
+    "prediction": "For a 1200 sq ft apartment (x=12): Rent = 2.5 * 12 = 30 ($3,000)."
+  },
+  "advantages": [
+    "Completely transparent: each coefficient directly quantifies feature impact.",
+    "Extremely fast to compute and requires negligible memory.",
+    "Deterministic closed-form solution exists without need for hyperparameter tuning.",
+    "Can easily incorporate regularization (Ridge L2, Lasso L1) to prevent overfitting."
+  ],
+  "disadvantages": [
+    "Strong assumption: assumes strictly linear additive relationships between inputs and target.",
+    "Highly sensitive to outliers: squaring errors places immense penalty on extreme values, skewing the line.",
+    "Susceptible to multicollinearity (correlated features create unstable, erratic coefficients).",
+    "Prone to high bias (underfitting) when true relationships are non-linear or curved."
+  ],
+  "when_to_use": [
+    "When relationships between variables are genuinely linear or approximately linear.",
+    "When you need to explain how much the target increases per unit increase of a feature.",
+    "As the standard quantitative benchmark before testing non-linear algorithms."
+  ],
+  "when_to_avoid": [
+    "When relationships exhibit non-linear thresholds, saturation curves, or complex interactions.",
+    "When data contains uncleaned extreme anomalies/outliers."
+  ],
+  "comparison_with_related": [
+    {
+      "algorithm": "Decision Tree Regressor",
+      "difference": "Linear Regression fits a smooth global continuous plane; Decision Tree Regressors partition space into piecewise flat step regions."
+    },
+    {
+      "algorithm": "Random Forest Regressor",
+      "difference": "Linear Regression has high bias and cannot learn curves without polynomial features; Random Forests naturally capture non-linear surfaces by averaging trees."
+    }
+  ],
+  "practical_example": "Predicting house prices or quarterly business revenue based on historical marketing spend and square footage."
+}
